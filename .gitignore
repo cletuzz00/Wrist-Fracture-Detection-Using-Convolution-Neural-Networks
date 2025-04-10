@@ -1,0 +1,13 @@
+.ipynb_checkpoints
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.db
+*.sqlite
+*.egg-info/
+*.egg
+*.whl
+*.log
+.h5
+better-mura/
