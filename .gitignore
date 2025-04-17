@@ -13,3 +13,4 @@ __pycache__/
 better-mura/
 ensemble_model.h5
 model.h5
+resnet50_model.h5
