@@ -9,7 +9,7 @@ Musculoskeletal injuries are common, and X-ray interpretation remains time-consu
 Key components:
 - Wrist-only data filtering from the MURA dataset.
 - Preprocessing and augmentation for model generalization.
-- Transfer learning with models such as ResNet, EfficientNet, etc.
+- Transfer learning with models such as ResNet, EfficientNet
 - Performance evaluation using metrics such as Accuracy, ROC AUC, Sensitivity, and Specificity.
 - Visualization of predictions and model interpretability.
 
