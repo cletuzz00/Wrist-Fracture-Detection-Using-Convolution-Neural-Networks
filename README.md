@@ -134,12 +134,12 @@ This project addresses these challenges by developing a deep learning system tha
 
 <table>
   <tr>
-    <td><img src="res_graph.png" height="200"/></td>
+    <td><img src="res_graph.png" height="400"/></td>
   </tr>
 </table>
 <table>
   <tr>
-    <td><img src="eff graph.png" height="200"/></td>
+    <td><img src="eff graph.png" height="400"/></td>
   </tr>
 </table>
 
