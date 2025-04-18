@@ -29,16 +29,13 @@ This project addresses these challenges by developing a deep learning system tha
 - Sample Format: PNG/JPG grayscale images of wrist radiographs
 ### Correlation Matrices
 
-<div align="center">
+<div>
 
 ### Image Dimension Distribution
 
 <table>
   <tr>
-    <td align="center"><strong>Image Dimensions before preprocessing</strong></td>
-  </tr>
-  <tr>
-    <td><img src="dimension_distribution.png" width="350"/></td>
+    <td><img src="dimension_distribution.png" width="400"/></td>
   </tr>
 </table>
 
@@ -105,6 +102,23 @@ This project addresses these challenges by developing a deep learning system tha
 - AUC-ROC
 - Confusion Matrix and ROC Curve visualization
 
+<div>
+
+### Loss Error
+
+<table>
+  <tr>
+    <td><img src="res.png" width="350"/></td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td><img src="eff.png" width="350"/></td>
+  </tr>
+</table>
+
+</div>
+
 ---
 
 ## Results
@@ -113,6 +127,23 @@ This project addresses these challenges by developing a deep learning system tha
 |----------------|----------|---------|-------------|-------------|----------|
 | ResNet50       | 92%      | 0.9146  | 87%         | 96%         | 0.90     |
 | EfficientNetB0 | 88%      | ~0.87   | 81%         | 93%         | 0.85     |
+
+<div>
+
+### Loss Error
+
+<table>
+  <tr>
+    <td><img src="res_graph.png" width="350"/></td>
+  </tr>
+</table>
+<table>
+  <tr>
+    <td><img src="eff graph.png" width="350"/></td>
+  </tr>
+</table>
+
+</div>
 
 **Observations**:
 - ResNet50 outperforms EfficientNetB0 across most metrics, including specificity and AUC.
