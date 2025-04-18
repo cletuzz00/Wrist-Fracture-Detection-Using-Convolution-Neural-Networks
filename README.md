@@ -104,16 +104,16 @@ This project addresses these challenges by developing a deep learning system tha
 
 <div>
 
-### Loss Error
+### Confusion Matrix
 
 <table>
   <tr>
-    <td><img src="resnet_confusion_matrix.png" height="200"/></td>
+    <td><img src="resnet_confusion_matrix.png" height="200" width="400"/></td>
   </tr>
 </table>
 <table>
   <tr>
-    <td><img src="efficientnet_consfustion_matrix.png" width="200"/></td>
+    <td><img src="efficientnet_consfustion_matrix.png" height="200" width="400"/></td>
   </tr>
 </table>
 
