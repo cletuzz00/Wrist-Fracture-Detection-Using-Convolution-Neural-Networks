@@ -1,118 +1,193 @@
 # Wrist Fracture Detection using Deep Learning on the MURA Dataset
 
-This project implements a deep learning-based approach for automatic detection of wrist fractures from X-ray images using Convolutional Neural Networks (CNNs). The dataset used is a subset (wrist-only) from the **MURA (Musculoskeletal Radiographs)** dataset.
+This project presents a deep learning-based **Computer-Aided Diagnostic (CAD)** system for early and accurate detection of wrist fractures using X-ray images. It is built on filtered wrist-only data from the **MURA (Musculoskeletal Radiographs)** dataset, utilizing modern CNN architectures for high-performance classification.
 
-## 🧠 Project Overview
+## Project Motivation
 
-Musculoskeletal injuries are common, and X-ray interpretation remains time-consuming and subjective. This project aims to assist radiologists in identifying wrist fractures using state-of-the-art deep learning models trained on real-world data.
+Wrist fractures are one of the most common orthopedic injuries, often seen in elderly and trauma patients. Diagnosing these fractures from plain X-rays is difficult due to:
+- Subtle fracture lines that are easily missed
+- Subjective interpretation by radiologists
+- Limited access to specialists in rural or understaffed settings
 
-Key components:
-- Wrist-only data filtering from the MURA dataset.
-- Preprocessing and augmentation for model generalization.
-- Transfer learning with models such as ResNet, EfficientNet
-- Performance evaluation using metrics such as Accuracy, ROC AUC, Sensitivity, and Specificity.
-- Visualization of predictions and model interpretability.
+This project addresses these challenges by developing a deep learning system that automates the detection of wrist fractures from radiographs, helping reduce diagnostic delays and errors.
 
-## 🗂️ Dataset
+## Objectives
 
-- **Source**: [MURA Dataset by Stanford ML Group](https://stanfordmlgroup.github.io/competitions/mura/)
-- **Original Source**: [MURA Dataset by Stanford ML Group](https://stanfordmlgroup.github.io/competitions/mura/)
-- **Content**: 40,561 musculoskeletal studies from 14,863 patients.
-- **Subset Used**: Only wrist images.
-- **Classes**: 
-  - `Normal`
-  - `Fracture`
+- Acquire and preprocess wrist X-ray data from the MURA dataset
+- Train state-of-the-art CNN models (ResNet50 and EfficientNetB0) using transfer learning
+- Evaluate models using accuracy, F1-score, ROC-AUC, sensitivity, and specificity
+- Use Grad-CAM for visual explanation and model interpretability
 
-## 🧰 Dependencies
+---
 
-This project uses Python 3.x and the following main libraries:
+## Dataset
 
-```bash
-tensorflow
-opencv-python
-matplotlib
-numpy
-pandas
-seaborn
-scikit-learn
-```
+- Source: [MURA Dataset – Stanford ML Group](https://stanfordmlgroup.github.io/competitions/mura/)
+- Version used: [Better Mura](https://www.kaggle.com/datasets/sudhanshusuryawanshi/better-mura/data)
+- Dataset Used: Wrist-only filtered version available in the `better-mura/` directory
+- Composition: Binary classification (Normal vs. Fracture)
+- Sample Format: PNG/JPG grayscale images of wrist radiographs
 
-To install the dependencies:
+---
+
+## Preprocessing Pipeline
+
+1. Data Filtering: Selected only wrist images using metadata
+2. Image Resizing: Resized all images to 224x224 pixels
+3. Normalization: Pixel values scaled between 0 and 1
+4. Augmentation (training only):
+   - Random rotation
+   - Shear transformation
+   - Brightness variation
+5. Label Encoding: 
+   - Fracture = 1
+   - Normal = 0
+6. Class Balancing:
+   - Handled via class weights in the loss function: `{0: 1.0, 1: 1.5}`
+
+---
+
+## Model Architectures
+
+### ResNet50
+- Base Model: Pretrained on ImageNet
+- Top Layers:
+  - Global Average Pooling
+  - Dense(64, ReLU)
+  - Dropout(0.3)
+  - Output: Dense(1, Sigmoid)
+- Fine-Tuning: Last 15 layers unfrozen
+- Optimizer: Adam
+- Loss: Binary Crossentropy
+- Epochs: 25
+- Learning Rate: 1e-4
+
+### EfficientNetB0
+- Same top layers and configuration as ResNet50
+- Lightweight and faster training compared to ResNet50
+- Also pretrained on ImageNet
+
+### Callbacks
+- EarlyStopping: Based on validation loss (patience = 5)
+- ReduceLROnPlateau: Reduce LR by factor of 0.2 after 2 stagnant epochs (min_lr = 1e-6)
+
+---
+
+## Training Configuration
+
+- Data split: Train, Validation, Test
+- Image Generator: `ImageDataGenerator` with real-time augmentation
+- Hardware: Trained on local machine with TensorFlow and GPU/Metal acceleration
+
+---
+
+## Evaluation Metrics
+
+- Accuracy
+- Precision, Recall (Sensitivity)
+- Specificity
+- F1-Score
+- AUC-ROC
+- Confusion Matrix and ROC Curve visualization
+
+---
+
+## Results
+
+| Model          | Accuracy | AUC-ROC | Sensitivity | Specificity | F1-Score |
+|----------------|----------|---------|-------------|-------------|----------|
+| ResNet50       | 92%      | 0.9146  | 87%         | 96%         | 0.90     |
+| EfficientNetB0 | 88%      | ~0.87   | 81%         | 93%         | 0.85     |
+
+**Observations**:
+- ResNet50 outperforms EfficientNetB0 across most metrics, including specificity and AUC.
+- EfficientNetB0 still achieves high precision and is suitable for lightweight or mobile deployments.
+- Both models match literature benchmarks (AUC between 0.87–0.93).
+
+---
+
+## Grad-CAM & Interpretability
+
+Grad-CAM was used to visualize which regions of the X-ray influenced model predictions. However:
+
+### Limitations of Grad-CAM:
+- Subtle or fine fractures were not well-highlighted due to coarse heatmap resolution.
+- Fracture locations are often small and visually ambiguous.
+- Model sometimes focused on irrelevant image regions (e.g., borders or artifacts).
+
+---
+
+## Discussion
+
+- Both CNN architectures demonstrated strong classification performance.
+- ResNet50 is better suited for environments where high sensitivity and specificity are required.
+- EfficientNetB0 provides a speed-accuracy trade-off, useful for fast inference.
+
+---
+
+## Limitations
+
+- Dataset lacks pixel-level annotations or bounding boxes, making it hard for the model to focus on fracture regions precisely.
+- Grad-CAM performance was inconsistent and unreliable for clinical localization.
+- Data imbalance despite class weighting still affects minority class sensitivity.
+
+---
+
+## Future Work
+
+- Incorporate pixel-level or bounding-box labeled datasets to improve interpretability.
+- Use multi-view radiographs for improved spatial context.
+- Explore Vision Transformers or attention-based CNNs.
+- Improve Grad-CAM or use newer explainability tools (e.g., SmoothGrad, Score-CAM).
+- Apply ensemble learning to combine strengths of multiple models.
+- Validate using external datasets and radiologist-labeled images.
+- Assess integration into clinical PACS or triage systems.
+
+---
+
+## Dependencies
+
+Install the dependencies using the requirements file:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-## 📁 Folder Structure
+Main packages:
+- tensorflow
+- opencv-python
+- matplotlib
+- numpy
+- pandas
+- seaborn
+- scikit-learn
+
+---
+
+## Folder Structure
 
 ```
 ├── model_final.ipynb       # Main training and evaluation notebook
-├── better-mura/            # MURA dataset (wrist images only)
+├── better-mura/            # Pre-filtered wrist X-ray images
+├── images/                 # Sample output images, confusion matrix, Grad-CAM
 ├── README.md               # Project documentation
 └── requirements.txt        # Python dependencies
 ```
 
-## 🔄 Data Preparation
+---
 
-A function `get_data()` is implemented to:
-- Read the dataset metadata.
-- Filter wrist X-ray images.
-- Load and resize images.
-- Label them as `fracture` or `normal`.
+## License
 
-## 🏗️ Model Architecture
+This project is for educational and research use only. Please refer to the MURA dataset and pretrained model license agreements for any commercial use.
 
-The notebook supports using transfer learning via pretrained CNN architectures such as:
-- ResNet50
-- EfficientNetB0
-- MobileNetV2 (optional)
+---
 
-Each model is fine-tuned with:
-- Global Average Pooling
-- Fully Connected Layers
-- Softmax activation (for binary classification)
+## Acknowledgements
 
-## 🔁 Training Pipeline
+- Stanford ML Group for providing the MURA dataset.
+- TensorFlow and Keras for model training frameworks.
+- All contributors to open-source tools used in this project.
 
-- Dataset split into training, validation, and test sets.
-- Data augmentation using `ImageDataGenerator`.
-- Early stopping to prevent overfitting.
-- Performance tracking using `ROC AUC`, `confusion matrix`, and classification reports.
+---
 
-## 📊 Evaluation
-
-The following metrics are computed:
-- **Accuracy**
-- **Sensitivity (Recall)**
-- **Specificity**
-- **F1-score**
-- **AUC-ROC**
-
-Visualization includes:
-- Confusion matrix
-- ROC curve
-- Sample predictions
-
-## 🧠 Model Interpretability
-
-Optionally, Grad-CAM can be used to interpret which parts of the image the model focuses on during prediction.
-
-## 🚀 Results
-
-
-| Model         | Accuracy | AUC-ROC | Sensitivity | Specificity |
-|---------------|----------|---------|-------------|-------------|
-| ResNet50      | 88.2%    | 0.91    | 0.86        | 0.90        |
-| EfficientNetB0|  -----   |  -----  |   -- ----   | ------      |
-
-## 📝 License
-
-This project is for educational and research purposes. For commercial use, please check the licensing of the MURA dataset and pretrained models.
-
-## 🙌 Acknowledgements
-
-- [Stanford ML Group](https://stanfordmlgroup.github.io/)
-- TensorFlow/Keras for deep learning frameworks
-- Original authors of the MURA dataset
-
-
+Would you like this turned into a PDF or `.md` file directly?
