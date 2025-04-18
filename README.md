@@ -35,7 +35,7 @@ This project addresses these challenges by developing a deep learning system tha
 
 <table>
   <tr>
-    <td><img src="dimension_distribution.png" width="400"/></td>
+    <td><img src="dimension_distribution.png" height="200"/></td>
   </tr>
 </table>
 
@@ -108,12 +108,12 @@ This project addresses these challenges by developing a deep learning system tha
 
 <table>
   <tr>
-    <td><img src="res.png" width="350"/></td>
+    <td><img src="resnet_confusion_matrix.png" height="200"/></td>
   </tr>
 </table>
 <table>
   <tr>
-    <td><img src="eff.png" width="350"/></td>
+    <td><img src="efficientnet_consfustion_matrix.png" width="200"/></td>
   </tr>
 </table>
 
@@ -134,12 +134,12 @@ This project addresses these challenges by developing a deep learning system tha
 
 <table>
   <tr>
-    <td><img src="res_graph.png" width="350"/></td>
+    <td><img src="res_graph.png" height="200"/></td>
   </tr>
 </table>
 <table>
   <tr>
-    <td><img src="eff graph.png" width="350"/></td>
+    <td><img src="eff graph.png" height="200"/></td>
   </tr>
 </table>
 
