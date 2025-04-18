@@ -188,6 +188,3 @@ This project is for educational and research use only. Please refer to the MURA 
 - TensorFlow and Keras for model training frameworks.
 - All contributors to open-source tools used in this project.
 
----
-
-Would you like this turned into a PDF or `.md` file directly?
