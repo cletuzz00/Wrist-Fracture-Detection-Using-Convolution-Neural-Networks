@@ -27,7 +27,22 @@ This project addresses these challenges by developing a deep learning system tha
 - Dataset Used: Wrist-only filtered version available in the `better-mura/` directory
 - Composition: Binary classification (Normal vs. Fracture)
 - Sample Format: PNG/JPG grayscale images of wrist radiographs
+### Correlation Matrices
 
+<div align="center">
+
+### Image Dimension Distribution
+
+<table>
+  <tr>
+    <td align="center"><strong>Image Dimensions before preprocessing</strong></td>
+  </tr>
+  <tr>
+    <td><img src="dimension_distribution.png" width="350"/></td>
+  </tr>
+</table>
+
+</div>
 ---
 
 ## Preprocessing Pipeline
