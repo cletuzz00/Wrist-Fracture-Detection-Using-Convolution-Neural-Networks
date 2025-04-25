@@ -28,7 +28,6 @@ This project addresses these challenges by developing a deep learning system tha
 - Composition: Binary classification (Normal vs. Fracture)
 - Sample Format: PNG/JPG grayscale images of wrist radiographs
 ### Correlation Matrices
-## [Youtube Link](https://www.youtube.com/watch?v=_Tb-3D0P3UI)
 
 <div>
 
